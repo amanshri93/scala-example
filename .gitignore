@@ -1,0 +1,15 @@
+bookstore/logs
+bookstore/project/project
+bookstore/project/target
+bookstore/target
+bookstore/tmp
+bookstore/.history
+bookstore/dist
+bookstore/.idea
+bookstore/*.iml
+bookstore/out
+bookstore/.idea_modules
+bookstore/.classpath
+bookstore/.project
+bookstore/RUNNING_PID
+bookstore/.settings
