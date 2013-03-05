@@ -16,5 +16,15 @@ Refer CoffeeSpec.scala for more details.
 
 I will be quickly putting a blog on this shortly.
 
+To integrate Slick with your Play code, copy the slick-plugin folder in you play directory and modify,
+
+`val main = play.Project(appName, appVersion, appDependencies).settings(
+    // Add your own project settings here
+  ).dependsOn(RootProject(file("slick-plugin/")))
+
+`
+
+To add the above code in project/Build.scala.
+
 
 
