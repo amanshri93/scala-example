@@ -24,5 +24,6 @@ To integrate Slick with your Play code, copy the slick-plugin folder in you play
 
 To add the above code in project/Build.scala.
 
+For more detials refer [Integrating Play 2.1 with Slick 1.0.0 Database query DSL](http://krishnasblog.com/2013/03/06/integrating-play-2-1-with-slick-1-0-0-database-query-dsl/).
 
 
