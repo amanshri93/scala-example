@@ -1,3 +1,5 @@
+bookstore/.target
+bookstore/.cache
 bookstore/logs
 bookstore/project/project
 bookstore/project/target
@@ -13,6 +15,8 @@ bookstore/.classpath
 bookstore/.project
 bookstore/RUNNING_PID
 bookstore/.settings
+coffee-example/.target
+coffee-example/.cache
 coffee-example/logs
 coffee-example/project/project
 coffee-example/project/target
@@ -28,6 +32,8 @@ coffee-example/.classpath
 coffee-example/.project
 coffee-example/RUNNING_PID
 coffee-example/.settings
+coffee-example-with-auth/.target
+coffee-example-with-auth/.cache
 coffee-example-with-auth/logs
 coffee-example-with-auth/project/project
 coffee-example-with-auth/project/target
@@ -43,6 +49,8 @@ coffee-example-with-auth/.classpath
 coffee-example-with-auth/.project
 coffee-example-with-auth/RUNNING_PID
 coffee-example-with-auth/.settings
+coffee-example-with-authen-author/.target
+coffee-example-with-authen-author/.cache
 coffee-example-with-authen-author/logs
 coffee-example-with-authen-author/project/project
 coffee-example-with-authen-author/project/target
