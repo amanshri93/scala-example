@@ -2,6 +2,8 @@ package models
 
 import scala.slick.driver.H2Driver.simple._
 import scala.reflect.runtime.universe._
+import play.api.db.DB
+import play.api.Play.current
 
 // Use the implicit threadLocalSession
 //import Database.threadLocalSession
@@ -53,16 +55,16 @@ object Suppliers extends Table[Supplier]("SUPPLIERS") {
 
 // Definition of the COFFEES table
 object Coffees extends Table[Coffee]("COFFEES") {
-  //def id = column[Int]("COF_ID", O.PrimaryKey, O AutoInc) // This is the primary key column
+  lazy val database = Database.forDataSource(DB.getDataSource())
+
   def name = column[String]("COF_NAME", O.PrimaryKey) // This is the primary key column
   def supID = column[Int]("SUP_ID")
   def price = column[Long]("PRICE")
   def sales = column[Int]("SALES")
   def total = column[Int]("TOTAL")
-  //def * = id.? ~ name ~ supID ~ price ~ sales ~ total <> (Coffee.apply _, Coffee.unapply _)
+
   def * = name.? ~ supID ~ price ~ sales ~ total <> (Coffee.apply _, Coffee.unapply _)
-  //def autoInc = id.? ~ name ~ supID ~ price ~ sales ~ total <> (Coffee, Coffee.unapply _) returning id
-  // A reified foreign key relation that can be navigated to create a join
+
   def supplier = foreignKey("SUP_FK", supID, Suppliers)(_.supId)
 
   def findAll(filter: String = "%") = {
@@ -83,5 +85,3 @@ object Coffees extends Table[Coffee]("COFFEES") {
   def findByPK(pk: String) =
     for (c <- Coffees if c.name === pk) yield c
 }
-
-

@@ -9,7 +9,7 @@ object ApplicationBuild extends Build {
 
   val appDependencies = Seq(
     jdbc,
-    "org.scalatest" % "scalatest_2.10" % "2.0.M6-SNAP9" % "test",
+    "org.scalamock" %% "scalamock-scalatest-support" % "3.0" % "test",
     "com.typesafe" % "slick_2.10" % "1.0.0-RC2",
     "org.slf4j" % "slf4j-nop" % "1.6.4",
     "com.h2database" % "h2" % "1.3.166",

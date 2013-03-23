@@ -9,13 +9,15 @@ object ApplicationBuild extends Build {
 
   val appDependencies = Seq(
     jdbc,
-    "org.scalatest" % "scalatest_2.10" % "2.0.M6-SNAP9" % "test",
+    "org.scalamock" %% "scalamock-scalatest-support" % "3.0" % "test",
     "com.typesafe" % "slick_2.10.0-RC1" % "0.11.2",
-    "org.slf4j" % "slf4j-nop" % "1.6.4",
+    "org.slf4j" % "slf4j-nop" % "1.6.6",
+    "org.slf4j" % "slf4j-api" % "1.6.6",
     "com.h2database" % "h2" % "1.3.166",
     "org.xerial" % "sqlite-jdbc" % "3.6.20")
 
   val main = play.Project(appName, appVersion, appDependencies).settings( // Add your own project settings here      
+    //scalaVersion := "2.10.1"
   )
 
 }
