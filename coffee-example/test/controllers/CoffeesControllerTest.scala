@@ -8,9 +8,9 @@ import play.api.test.Helpers._
 import dal.CoffeeComponent
 
 class CoffeesControllerTest extends FunSpec with ShouldMatchers with MockFactory {
-  describe("Coffee Data Access") {
+  describe("Coffee Controller with Mock test") {
 
-    it("should find Coffee object for a given Coffee name") {
+    it("should delete a coffee record with assert on status") {
       running(FakeApplication(additionalConfiguration = inMemoryDatabase())) {
         val mockComponent = mock[CoffeeComponent]
         (mockComponent.delete _).expects("Columbian") returning (1) twice
