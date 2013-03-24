@@ -128,6 +128,7 @@ class CoffeesController(coffeeComponent: CoffeeComponent = new CoffeeComponentIm
    */
   def delete(pk: String) = Action {
     database withSession {
+      println("in db session")
       Home.flashing(coffeeComponent.delete(pk) match {
         case 0 => "failure" -> "Entity has Not been deleted"
         case x => "success" -> s"Entity has been deleted (deleted $x row(s))"
