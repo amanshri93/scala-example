@@ -4,20 +4,18 @@ import play.api._
 import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
-
 import views._
-import models._
-
+import dal._
 import play.api.db.DB
 import play.api.Play.current
-
-// Use H2Driver to connect to an H2 database
 import scala.slick.driver.H2Driver.simple._
-
-// Use the implicit threadLocalSession
 import Database.threadLocalSession
+import models.Suppliers
+import models.Coffee
+import models.Page
+import models.Coffees
 
-object CoffeesController extends Controller {
+class CoffeesController(coffeeComponent: CoffeeComponent = new CoffeeComponentImpl) extends Controller {
 
   lazy val database = Database.forDataSource(DB.getDataSource())
 
@@ -61,10 +59,10 @@ object CoffeesController extends Controller {
   def list(page: Int, orderBy: Int, filter: String = "%") = Action { implicit request =>
     database withSession {
       Ok(html.coffees.list(
-        Page(Coffees.list(page, pageSize, orderBy, filter).list, 
+        Page(coffeeComponent.list(page, pageSize, orderBy, filter).list, 
             page, 
             offset = pageSize * page, 
-            Coffees.findAll(filter).list.size),
+            coffeeComponent.findall(filter).list.size),
         orderBy,
         filter))
     }
@@ -100,7 +98,7 @@ object CoffeesController extends Controller {
    */
   def edit(pk: String) = Action {
     database withSession {
-      Coffees.findByPK(pk).list.headOption match {
+      coffeeComponent.find(pk).list.headOption match {
         case Some(e) => Ok(html.coffees.editForm(pk, form.fill(e), supplierSelect))
         case None => NotFound
       }
@@ -117,7 +115,7 @@ object CoffeesController extends Controller {
       form.bindFromRequest.fold(
         formWithErrors => BadRequest(html.coffees.editForm(pk, formWithErrors, supplierSelect)),
         entity => {
-          Home.flashing(Coffees.findByPK(pk).update(entity) match {
+          Home.flashing(coffeeComponent.find(pk).update(entity) match {
             case 0 => "failure" -> s"Could not update entity ${entity.name}"
             case _ => "success" -> s"Entity ${entity.name} has been updated"
           })
@@ -130,12 +128,12 @@ object CoffeesController extends Controller {
    */
   def delete(pk: String) = Action {
     database withSession {
-      Home.flashing(Coffees.findByPK(pk).delete match {
+      Home.flashing(coffeeComponent.delete(pk) match {
         case 0 => "failure" -> "Entity has Not been deleted"
         case x => "success" -> s"Entity has been deleted (deleted $x row(s))"
       })
     }
   }
-
 }
             
+object CoffeesController extends CoffeesController(new CoffeeComponentImpl)

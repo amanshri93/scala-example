@@ -2,7 +2,6 @@ package models
 
 import org.scalatest.FunSpec
 import org.scalatest.matchers.ShouldMatchers
-import org.scalatest.BeforeAndAfter
 import scala.slick.driver.H2Driver.simple._
 import Database.threadLocalSession
 import org.scalatest.exceptions.TestFailedException
@@ -12,7 +11,7 @@ import play.api.test._
 import play.api.test.Helpers._
 import util.InitTrait
 
-class DomainSpec extends FunSpec with ShouldMatchers with BeforeAndAfter with InitTrait {
+class DomainSpec extends FunSpec with ShouldMatchers with InitTrait {
 
   lazy val database = Database.forDataSource(DB.getDataSource())
 
