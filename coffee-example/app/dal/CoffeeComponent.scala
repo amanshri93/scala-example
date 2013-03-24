@@ -2,10 +2,7 @@ package dal
 
 import models._
 import scala.slick.lifted.Query
-import scala.slick.session.Session
 
-import play.api.db.DB
-import play.api.Play.current
 import scala.slick.driver.H2Driver.simple._
 import Database.threadLocalSession
 
@@ -17,7 +14,6 @@ trait CoffeeComponent {
 }
 
 class CoffeeComponentImpl extends CoffeeComponent {
-  lazy val database = Database.forDataSource(DB.getDataSource())
 
   def find(pk: String): Query[Coffees.type, Coffee] = {
     Coffees.findByPK(pk)
