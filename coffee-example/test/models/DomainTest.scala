@@ -10,6 +10,7 @@ import play.api.Play.current
 import play.api.test._
 import play.api.test.Helpers._
 import util.InitTrait
+import dal._
 
 class DomainSpec extends FunSpec with ShouldMatchers with InitTrait {
 
@@ -22,7 +23,8 @@ class DomainSpec extends FunSpec with ShouldMatchers with InitTrait {
         database withSession {
           init
 
-          val c = Coffees.findByPK("Colombian")
+          val cc = new CoffeeComponentImpl()
+          val c = cc.find("Colombian")
           c.first.price should equal(799L)
         }
       }
