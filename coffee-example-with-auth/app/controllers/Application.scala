@@ -22,8 +22,6 @@ object Application extends Controller {
         case _ => false
       }))
 
-  def onUnauthorized(request: RequestHeader) = Results.Redirect(routes.Application.login())
-
   def login = Action { implicit request =>
     Ok(html.login(loginForm))
   }
