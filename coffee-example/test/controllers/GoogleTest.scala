@@ -12,7 +12,7 @@ class GoogleTest extends FlatSpec with ShouldMatchers with WebBrowser {
 
   implicit val webDriver: WebDriver = new HtmlUnitDriver
   
-  "The blog app home page" should "have the correct title" in {
+  "The Google app home page" should "have the correct title" in {
     go to "http://www.google.com"
     click on "q"
     textField("q").value = "Cheese!"

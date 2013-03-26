@@ -8,6 +8,7 @@ import play.api.test.Helpers._
 import dal.CoffeeComponent
 
 class CoffeesControllerTest extends FunSpec with ShouldMatchers with MockFactory {
+
   describe("Coffee Controller with Mock test") {
 
     it("should delete a coffee record with assert on status as SEE_OTHER") {
