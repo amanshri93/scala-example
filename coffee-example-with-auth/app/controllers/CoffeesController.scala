@@ -4,17 +4,11 @@ import play.api._
 import play.api.mvc._
 import play.api.data._
 import play.api.data.Forms._
-
 import views._
 import models._
-
 import play.api.db.DB
 import play.api.Play.current
-
-// Use H2Driver to connect to an H2 database
 import scala.slick.driver.H2Driver.simple._
-
-// Use the implicit threadLocalSession
 import Database.threadLocalSession
 
 object CoffeesController extends Controller with Secured {
@@ -51,6 +45,8 @@ object CoffeesController extends Controller with Secured {
    */
   def index = Action { Home }
 
+  def onUnauthorized(request: RequestHeader) = Results.Redirect(routes.Application.login())
+
   /**
    * Display the paginated list.
    *
@@ -58,32 +54,28 @@ object CoffeesController extends Controller with Secured {
    * @param orderBy Column to be sorted
    * @param filter Filter applied on entity names
    */
-  def list(page: Int, orderBy: Int, filter: String = "%") = IsAuthenticated {
-    username =>
-      implicit request =>
-        Users.findByEmail(username).map { user =>
-          database withSession {
-            Ok(html.coffees.list(
-              Page(Coffees.list(page, pageSize, orderBy, filter).list,
-                page,
-                offset = pageSize * page,
-                Coffees.findAll(filter).list.size),
-              orderBy,
-              filter))
-          }
-        }.getOrElse(Forbidden)
+  def list(page: Int, orderBy: Int, filter: String = "%") = IsAuthenticated { username =>
+    implicit request =>
+      database withSession {
+        Ok(html.coffees.list(
+          Page(Coffees.list(page, pageSize, orderBy, filter).list,
+            page,
+            offset = pageSize * page,
+            Coffees.findAll(filter).list.size),
+          orderBy,
+          filter))
+      }
   }
   /**
    * Display the 'new form'.
    */
-  def create = IsAuthenticated {
-    username =>
-      implicit request =>
-        Users.findByEmail(username).map { user =>
+  def create = IsAuthenticated { username =>
+    implicit request =>
+      database withSession {
           database withSession {
             Ok(html.coffees.createForm(form, supplierSelect))
           }
-        }.getOrElse(Forbidden)
+      }
   }
 
   /**
@@ -143,6 +135,5 @@ object CoffeesController extends Controller with Secured {
       })
     }
   }
-
 }
             

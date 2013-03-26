@@ -10,23 +10,20 @@ import views._
 
 object Application extends Controller {
 
-  // -- Authentication
-
-  val loginForm = Form(
+  lazy val loginForm = Form(
     tuple(
       "email" -> text,
-      "password" -> text) verifying ("Invalid email or password", result => result match {
+      "password" -> text) verifying ("Invalid user or password", result => result match {
         case (email, password) => {
-          println (email + " " + password);
+          println("user=" + email + " password=" + password);
           val userList = Users.authenticate(email, password)
-          println ("****" + userList);
           userList == 1
         }
+        case _ => false
       }))
 
-  /**
-   * Login page.
-   */
+  def onUnauthorized(request: RequestHeader) = Results.Redirect(routes.Application.login())
+
   def login = Action { implicit request =>
     Ok(html.login(loginForm))
   }
@@ -47,58 +44,26 @@ object Application extends Controller {
     Redirect(routes.Application.login).withNewSession.flashing(
       "success" -> "You've been logged out")
   }
-
-  // -- Javascript routing
-
 }
 
 /**
  * Provide security features
  */
 trait Secured {
+  self: Controller =>
 
   /**
-   * Retrieve the connected user email.
+   * Retrieve the connected user id.
    */
-  private def username(request: RequestHeader) = request.session.get("email")
+  def username(request: RequestHeader) = request.session.get("email")
 
   /**
-   * Redirect to login if the user in not authorized.
+   * Redirect to login if the use in not authorized.
    */
-  private def onUnauthorized(request: RequestHeader) = Results.Redirect(routes.Application.login)
+  def onUnauthorized(request: RequestHeader): Result
 
-  // --
-
-  /**
-   * Action for authenticated users.
-   */
-  def IsAuthenticated(f: => String => Request[AnyContent] => Result) = Security.Authenticated(username, onUnauthorized) { user =>
-    Action(request => f(user)(request))
-  }
-
-  /**
-   * Check if the connected user is a member of this project.
-   */
-  def IsMemberOf(project: Long)(f: => String => Request[AnyContent] => Result) = IsAuthenticated { user =>
-    request =>
-      if (true) {
-        f(user)(request)
-      } else {
-        Results.Forbidden
-      }
-  }
-
-  /**
-   * Check if the connected user is a owner of this task.
-   */
-  def IsOwnerOf(task: Long)(f: => String => Request[AnyContent] => Result) = IsAuthenticated { user =>
-    request =>
-      if (true) {
-        f(user)(request)
-      } else {
-        Results.Forbidden
-      }
-  }
-
+  def IsAuthenticated(f: => String => Request[AnyContent] => Result) =
+    Security.Authenticated(username, onUnauthorized) { user =>
+      Action(request => f(user)(request))
+    }
 }
-
