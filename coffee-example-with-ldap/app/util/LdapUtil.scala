@@ -29,7 +29,7 @@ object LdapUtil {
 
     server.add("dn: cn=user@test.com,dc=staticsecurity,dc=geomajas,dc=org", "objectClass: person", "locale: nl_BE",
       "sn: NormalUser", "givenName: Joe", "memberOf: cn=testgroup,dc=roles,dc=geomajas,dc=org", "userPassword: password");
-    server.add("dn: admin=dev@test.com,dc=staticsecurity,dc=geomajas,dc=org", "objectClass: person", "locale: nl_BE",
+    server.add("dn: cn=admin@test.com,dc=staticsecurity,dc=geomajas,dc=org", "objectClass: person", "locale: nl_BE",
       "sn: Administrator", "givenName: Cindy", "memberOf: cn=testgroup,dc=roles,dc=geomajas,dc=org", "userPassword: password");
 
     server
